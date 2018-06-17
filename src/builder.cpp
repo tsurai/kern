@@ -23,7 +23,7 @@ namespace Kern {
         return *this;
     }
 
-    DispatchBuilder &DispatchBuilder::filter(LogLevel level) {
+    DispatchBuilder &DispatchBuilder::level(LogLevel level) {
         if(this->inner == nullptr)
             throw BuilderReuseException();
 

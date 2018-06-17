@@ -4,12 +4,12 @@ Simple C++ logging library using a branching method chaining interface inspired 
 
 ```rust
 DispatchBuilder()
-  .filter(LogLevel::All)
+  .level(LogLevel::All)
   .format([](auto meta, auto msg, auto buf) {
     snprintf(buf, 265, "[%s] %s", meta.level, msg);
   })
   .chain(Logger::DispatchBuilder()
-    .filter(LogLevel::Error)
+    .level(LogLevel::Error)
     .sink(std::make_unique<StderrSink>())
     .build())
   .apply();

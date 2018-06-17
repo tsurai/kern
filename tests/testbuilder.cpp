@@ -20,7 +20,7 @@ TEST_CASE("DispatchBuilder can't be reused") {
     CHECK_NOTHROW( b->build() );
 
     CHECK_THROWS_AS( b->build(), BuilderReuseException );
-    CHECK_THROWS_AS( b->filter(LogLevel::All), BuilderReuseException );
+    CHECK_THROWS_AS( b->level(LogLevel::All), BuilderReuseException );
     CHECK_THROWS_AS( b->format(nullptr), BuilderReuseException );
     CHECK_THROWS_AS( b->sink(nullptr), BuilderReuseException );
     CHECK_THROWS_AS( b->chain(nullptr), BuilderReuseException );
