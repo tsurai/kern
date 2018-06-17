@@ -17,6 +17,15 @@ DispatchBuilder()
 info("foobar");
 error("lorem ipsum");
 ```
+
+### Todo
+
+* [ ] variadic logging macros
+* [ ] thread safety
+* [ ] more unit tests
+* [ ] example code
+* [ ] documentation
+
 ### Testing
 
 kern is using parts of the [catch] unit-testing framework for internal testing. All necessary files are beings
