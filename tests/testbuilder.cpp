@@ -46,4 +46,3 @@ TEST_CASE("DispatchBuilder can set the global logger") {
 
     restore_std_streams(streams);
 }
-

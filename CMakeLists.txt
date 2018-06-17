@@ -27,6 +27,7 @@ if(TESTING)
     set(TEST_SOURCES
         tests/testbase.cpp
         tests/testbuilder.cpp
+        tests/testdispatch.cpp
         tests/testsink.cpp
         tests/utils.cpp)
 

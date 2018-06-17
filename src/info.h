@@ -13,7 +13,8 @@ namespace Kern {
     };
 
     struct Metadata {
-        const char *level;
+        LogLevel level;
+        const char *level_str;
         const char *file;
         const char *function;
         int line;

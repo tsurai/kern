@@ -8,6 +8,7 @@
 
 namespace Kern {
     typedef std::function<void (Metadata &, const char *, char *)> FnFormat;
+    typedef std::function<bool (Metadata &)> FnFilter;
 
     enum class LogLevel : char;
 
@@ -31,6 +32,7 @@ namespace Kern {
         bool is_def_format = true;
         bool is_def_level = true;
         char buf[265];
+        FnFilter filter_func;
         FnFormat format_func;
         LogLevel log_level;
         std::unique_ptr<Sink> output_sink;

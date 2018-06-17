@@ -6,7 +6,7 @@ Simple C++ logging library using a branching method chaining interface inspired 
 DispatchBuilder()
   .level(LogLevel::All)
   .format([](auto meta, auto msg, auto buf) {
-    snprintf(buf, 265, "[%s] %s", meta.level, msg);
+    snprintf(buf, 265, "[%s] %s", meta.level_str, msg);
   })
   .chain(Logger::DispatchBuilder()
     .level(LogLevel::Error)

@@ -10,6 +10,15 @@ namespace Kern {
             delete inner;
     }
 
+    DispatchBuilder &DispatchBuilder::filter(FnFilter func) {
+        if(this->inner == nullptr)
+            throw BuilderReuseException();
+
+        this->inner->filter_func = func;
+
+        return *this;
+    }
+
     DispatchBuilder &DispatchBuilder::format(FnFormat func) {
         if(this->inner == nullptr)
             throw BuilderReuseException();
@@ -52,11 +61,15 @@ namespace Kern {
         if(dispatch == nullptr)
             throw std::invalid_argument("dispatch argument is NULL");
 
-        // inherit format if not otherwise specified
+        // inherit filter function if not otherwise specified
+        if(this->inner->filter_func != nullptr && dispatch->filter_func != nullptr)
+            dispatch->filter_func = this->inner->filter_func;
+
+        // inherit format function
         if(!this->inner->is_def_format && dispatch->is_def_format)
             dispatch->format_func = this->inner->format_func;
 
-        // inherit format if not otherwise specified
+        // inherit log level
         if(!this->inner->is_def_level && dispatch->is_def_level)
             dispatch->log_level = this->inner->log_level;
 

@@ -19,10 +19,11 @@ namespace Kern {
         DispatchBuilder(const DispatchBuilder &) = delete;
         DispatchBuilder& operator=(const DispatchBuilder &) = delete;
 
-        DispatchBuilder &format(FnFormat func);
+        DispatchBuilder &filter(FnFilter);
+        DispatchBuilder &format(FnFormat);
         DispatchBuilder &level(LogLevel);
-        DispatchBuilder &sink(std::unique_ptr<Sink> sink);
-        DispatchBuilder &chain(std::unique_ptr<Dispatch> dispatch);
+        DispatchBuilder &sink(std::unique_ptr<Sink>);
+        DispatchBuilder &chain(std::unique_ptr<Dispatch>);
         std::unique_ptr<Dispatch> build();
         void apply();
     private:
