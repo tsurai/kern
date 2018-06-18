@@ -20,7 +20,8 @@ error("lorem ipsum");
 
 ### Todo
 
-* [ ] variadic logging macros
+* [x] variadic logging macros
+* [ ] find proper non GGC / Clang only variadic macro solution
 * [ ] thread safety
 * [ ] more unit tests
 * [ ] example code

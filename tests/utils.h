@@ -1,9 +1,21 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "sink.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
+
+class BufSink : public Kern::Sink {
+public:
+    BufSink() = delete;
+    BufSink(char *buf);
+
+    void write(const char *msg);
+private:
+    char *buf;
+};
+
 
 struct StdStreams {
     std::streambuf *cout_buf;

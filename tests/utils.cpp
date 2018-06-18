@@ -1,6 +1,14 @@
 #include "catch.hpp"
 #include "utils.h"
 
+BufSink::BufSink(char *buf) {
+    this->buf = buf;
+};
+
+void BufSink::write(const char *msg) {
+    snprintf(buf, 256, "%s", msg);
+}
+
 StdStreams redirect_std_streams() {
     // redirect cout
     auto cout_oss = new std::ostringstream();

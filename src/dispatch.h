@@ -21,7 +21,34 @@ namespace Kern {
         Dispatch(const Dispatch &) = delete;
         Dispatch& operator=(const Dispatch &) = delete;
 
-        void write(LogLevel, const char *, const char *, int, const char *);
+        template <typename ... Args>
+        void write(LogLevel level, const char *src, const char *fn, int line, const char *fmt, Args const & ...args) noexcept {
+            if(static_cast<int>(this->log_level & level) != 0) {
+                Metadata meta = {
+                    .level = level,
+                    .level_str = level_to_str(level),
+                    .file = src,
+                    .function = fn,
+                    .line = line
+                };
+
+                if(this->filter_func == nullptr || this->filter_func(meta)) {
+                    char msg[256];
+                    snprintf(msg, 256, fmt, args...);
+
+                    this->format_func(meta, msg, this->buf);
+
+                    if(output_sink != nullptr)
+                        this->output_sink->write(this->buf);
+
+                    for(auto const& val: this->dchain) {
+                        val->write(level, src, fn, line, msg);
+                    }
+                }
+            }
+
+
+        }
 
         static std::unique_ptr<Dispatch> &get_logger() {
             return global_dispatch;
