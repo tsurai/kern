@@ -29,6 +29,7 @@ if(TESTING)
         tests/testbuilder.cpp
         tests/testdispatch.cpp
         tests/testsink.cpp
+        tests/testmacros.cpp
         tests/utils.cpp)
 
     add_executable(tests
