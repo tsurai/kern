@@ -7,6 +7,8 @@
 #include "sink.h"
 
 namespace Kern {
+    const size_t buf_size = 256;
+
     typedef std::function<void (Metadata &, const char *, char *)> FnFormat;
     typedef std::function<bool (Metadata &)> FnFilter;
 
@@ -33,21 +35,21 @@ namespace Kern {
                 };
 
                 if(this->filter_func == nullptr || this->filter_func(meta)) {
-                    char msg[256];
-                    snprintf(msg, 256, fmt, args...);
+                    char buf_out[buf_size];
+                    char buf_msg[buf_size];
 
-                    this->format_func(meta, msg, this->buf);
+                    snprintf(buf_msg, buf_size, fmt, args...);
+
+                    this->format_func(meta, buf_msg, buf_out);
 
                     if(output_sink != nullptr)
-                        this->output_sink->write(this->buf);
+                        this->output_sink->write(buf_out);
 
                     for(auto const& val: this->dchain) {
-                        val->write(level, src, fn, line, msg);
+                        val->write(level, src, fn, line, buf_msg);
                     }
                 }
             }
-
-
         }
 
         static std::unique_ptr<Dispatch> &get_logger() {
@@ -58,7 +60,6 @@ namespace Kern {
 
         bool is_def_format = true;
         bool is_def_level = true;
-        char buf[265];
         FnFilter filter_func;
         FnFormat format_func;
         LogLevel log_level;
