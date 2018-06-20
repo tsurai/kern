@@ -51,3 +51,16 @@ TEST_CASE("Dispatch formats the input message") {
     info("%d %.1f %s", 42, 4.2, "foobar");
     CHECK( strncmp(buf, res, strlen(res)) == 0 );
 }
+
+TEST_CASE("Prevent reads to uninitialized buffer memory") {
+    char buf[32];
+
+    DispatchBuilder()
+        .format([](auto, auto, auto) {})
+        .sink(std::make_unique<BufSink>(buf))
+        .apply();
+
+    info("foobar");
+
+    CHECK( buf[0] == '\0' );
+}

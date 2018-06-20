@@ -38,6 +38,10 @@ namespace Kern {
                     char buf_out[buf_size];
                     char buf_msg[buf_size];
 
+                    // prevent access to uninitialized memory in case the
+                    // format function does not fill the buffer
+                    buf_out[0] = '\0';
+
                     snprintf(buf_msg, buf_size, fmt, args...);
 
                     this->format_func(meta, buf_msg, buf_out);
