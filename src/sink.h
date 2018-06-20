@@ -34,9 +34,22 @@ namespace Kern {
     public:
         FileSink() = delete;
         FileSink(const char *filename) : file(filename, std::ios::out | std::ios::app) { };
+
         void write(const char *);
     private:
         std::ofstream file;
+    };
+
+    class SyslogSink : public Sink {
+    public:
+        SyslogSink() = delete;
+        SyslogSink(const char *, int, int);
+        ~SyslogSink();
+
+        void write_ext(Metadata &, const char *);
+        void write(const char *) { };
+    private:
+        int kern_lvl_to_syslog_lvl(LogLevel);
     };
 }
 
