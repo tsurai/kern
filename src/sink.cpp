@@ -2,6 +2,10 @@
 #include <iostream>
 
 namespace Kern {
+    void Sink::write_ext(Metadata &, const char *msg) {
+        this->write(msg);
+    }
+
     void StdoutSink::write(const char *msg) {
         std::cout << msg << std::endl;
     }

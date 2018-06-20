@@ -12,6 +12,7 @@ namespace Kern {
         Sink& operator=(const Sink &) = delete;
 
         virtual void write(const char *) = 0;
+        virtual void write_ext(Metadata &, const char *);
     protected:
         Sink() { };
     };
@@ -25,6 +26,7 @@ namespace Kern {
     class StderrSink : public Sink {
     public:
         StderrSink() { };
+
         void write(const char *);
     };
 

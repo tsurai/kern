@@ -47,7 +47,7 @@ namespace Kern {
                     this->format_func(meta, buf_msg, buf_out);
 
                     if(output_sink != nullptr)
-                        this->output_sink->write(buf_out);
+                        this->output_sink->write_ext(meta, buf_out);
 
                     for(auto const& val: this->dchain) {
                         val->write(level, src, fn, line, buf_msg);
