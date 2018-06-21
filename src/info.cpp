@@ -1,23 +1,23 @@
 #include "info.h"
 
 namespace Kern {
-    LogLevel operator|(LogLevel a, LogLevel b) {
-        return static_cast<LogLevel>(static_cast<char>(a) | static_cast<char>(b));
+    LogLevel operator|(LogLevel lhs, LogLevel rhs) {
+        return static_cast<LogLevel>(static_cast<char>(lhs) | static_cast<char>(rhs));
     }
 
-    LogLevel operator&(LogLevel a, LogLevel b) {
-        return static_cast<LogLevel>(static_cast<char>(a) & static_cast<char>(b));
+    LogLevel operator&(LogLevel lhs, LogLevel rhs) {
+        return static_cast<LogLevel>(static_cast<char>(lhs) & static_cast<char>(rhs));
     }
 
-    LogLevel operator^(LogLevel a, LogLevel b) {
-        return static_cast<LogLevel>(static_cast<char>(a) ^ static_cast<char>(b));
+    LogLevel operator^(LogLevel lhs, LogLevel rhs) {
+        return static_cast<LogLevel>(static_cast<char>(lhs) ^ static_cast<char>(rhs));
     }
 
-    LogLevel operator~(LogLevel a) {
-        return static_cast<LogLevel>(~static_cast<char>(a));
+    LogLevel operator~(LogLevel rhs) {
+        return static_cast<LogLevel>(~static_cast<char>(rhs));
     }
 
-    const char *level_to_str(LogLevel &level) {
+    const char *level_to_str(const LogLevel &level) {
         switch(level) {
             case LogLevel::Trace:
                 return "trace";

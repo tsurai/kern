@@ -3,7 +3,7 @@
 #include <syslog.h>
 
 namespace Kern {
-    void Sink::write_ext(Metadata &, const char *msg) {
+    void Sink::write_ext(const Metadata &, const char *msg) {
         this->write(msg);
     }
 
@@ -46,7 +46,7 @@ namespace Kern {
         }
     }
 
-    void SyslogSink::write_ext(Metadata &meta, const char *msg) {
+    void SyslogSink::write_ext(const Metadata &meta, const char *msg) {
         int syslog_level = this->kern_lvl_to_syslog_lvl(meta.level);
 
         syslog(syslog_level, "%s", msg);

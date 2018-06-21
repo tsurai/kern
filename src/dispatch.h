@@ -9,8 +9,8 @@
 namespace Kern {
     const size_t buf_size = 256;
 
-    typedef std::function<void (Metadata &, const char *, char *)> FnFormat;
-    typedef std::function<bool (Metadata &)> FnFilter;
+    typedef std::function<void (const Metadata &, const char *, char *)> FnFormat;
+    typedef std::function<bool (const Metadata &)> FnFilter;
 
     enum class LogLevel : char;
 

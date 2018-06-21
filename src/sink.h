@@ -12,7 +12,7 @@ namespace Kern {
         Sink& operator=(const Sink &) = delete;
 
         virtual void write(const char *) = 0;
-        virtual void write_ext(Metadata &, const char *);
+        virtual void write_ext(const Metadata &, const char *);
     protected:
         Sink() { };
     };
@@ -46,7 +46,7 @@ namespace Kern {
         SyslogSink(const char *, int, int);
         ~SyslogSink();
 
-        void write_ext(Metadata &, const char *);
+        void write_ext(const Metadata &, const char *);
         void write(const char *) { };
     private:
         int kern_lvl_to_syslog_lvl(LogLevel);

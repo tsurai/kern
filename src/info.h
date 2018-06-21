@@ -20,12 +20,12 @@ namespace Kern {
         int line;
     };
 
-    LogLevel operator|(LogLevel a, LogLevel b);
-    LogLevel operator&(LogLevel a, LogLevel b);
-    LogLevel operator^(LogLevel a, LogLevel b);
-    LogLevel operator~(LogLevel a);
+    LogLevel operator|(LogLevel, LogLevel);
+    LogLevel operator&(LogLevel, LogLevel);
+    LogLevel operator^(LogLevel, LogLevel);
+    LogLevel operator~(LogLevel);
 
-    const char *level_to_str(LogLevel &a);
+    const char *level_to_str(const LogLevel &);
 }
 
 #endif //INFO_H
