@@ -5,16 +5,13 @@
 #include <memory>
 #include <functional>
 #include "sink.h"
+#include "info.h"
 
 namespace Kern {
     const size_t buf_size = 256;
 
     typedef std::function<void (const Metadata &, const char *, char *)> FnFormat;
     typedef std::function<bool (const Metadata &)> FnFilter;
-
-    enum class LogLevel : char;
-
-    class DispatchBuilder;
 
     class Dispatch {
         friend class DispatchBuilder;
