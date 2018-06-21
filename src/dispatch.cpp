@@ -1,4 +1,4 @@
-#include "kern.h"
+#include "dispatch.h"
 
 namespace Kern {
     std::unique_ptr<Dispatch> Dispatch::global_dispatch = nullptr;

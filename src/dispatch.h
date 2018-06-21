@@ -1,14 +1,15 @@
 #ifndef DISPATCH_H
 #define DISPATCH_H
 
-#include <vector>
-#include <memory>
 #include <functional>
-#include "sink.h"
+#include <memory>
+#include <vector>
+
 #include "info.h"
+#include "sink.h"
 
 namespace Kern {
-    const size_t buf_size = 256;
+    constexpr size_t buf_size = 256;
 
     typedef std::function<void (const Metadata &, const char *, char *)> FnFormat;
     typedef std::function<bool (const Metadata &)> FnFilter;

@@ -1,6 +1,7 @@
 #include "sink.h"
-#include <iostream>
+
 #include <syslog.h>
+#include <iostream>
 
 namespace Kern {
     void Sink::write_ext(const Metadata &, const char *msg) {

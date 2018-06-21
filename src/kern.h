@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include "builder.h"
+#include "dispatch.h"
 
 namespace Kern {
     #define log(lvl, fmt, ...) Dispatch::get_logger()->write(lvl, __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__)

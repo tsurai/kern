@@ -2,6 +2,7 @@
 #define SINK_H
 
 #include <fstream>
+
 #include "info.h"
 
 namespace Kern {
@@ -17,11 +18,13 @@ namespace Kern {
         Sink() { };
     };
 
+
     class StdoutSink : public Sink {
     public:
         StdoutSink() { };
         void write(const char *);
     };
+
 
     class StderrSink : public Sink {
     public:
@@ -29,6 +32,7 @@ namespace Kern {
 
         void write(const char *);
     };
+
 
     class FileSink : public Sink {
     public:
@@ -39,6 +43,7 @@ namespace Kern {
     private:
         std::ofstream file;
     };
+
 
     class SyslogSink : public Sink {
     public:

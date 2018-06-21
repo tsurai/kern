@@ -2,7 +2,10 @@
 #define BUILDER_H
 
 #include <exception>
+
 #include "dispatch.h"
+#include "info.h"
+#include "sink.h"
 
 namespace Kern {
     class BuilderReuseException : public std::exception {
