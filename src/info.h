@@ -2,14 +2,6 @@
 #define INFO_H
 
 namespace Kern {
-    struct Metadata {
-        LogLevel level;
-        const char *level_str;
-        const char *file;
-        const char *function;
-        int line;
-    };
-
     enum class LogLevel : char {
         Trace   = 1 << 0,
         Debug   = 1 << 1,
@@ -26,6 +18,14 @@ namespace Kern {
     LogLevel operator~(LogLevel);
 
     const char *level_to_str(const LogLevel &);
+
+    struct Metadata {
+        LogLevel level;
+        const char *level_str;
+        const char *file;
+        const char *function;
+        int line;
+    };
 }
 
 #endif //INFO_H
