@@ -18,6 +18,11 @@ namespace Kern {
         friend class DispatchBuilder;
     public:
         ~Dispatch();
+
+        Dispatch(Dispatch&&);
+        Dispatch& operator=(Dispatch&&);
+
+        // prevent copy operations
         Dispatch(const Dispatch &) = delete;
         Dispatch& operator=(const Dispatch &) = delete;
 

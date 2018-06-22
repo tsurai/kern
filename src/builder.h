@@ -19,6 +19,10 @@ namespace Kern {
         DispatchBuilder();
         ~DispatchBuilder();
 
+        DispatchBuilder(DispatchBuilder&&);
+        DispatchBuilder& operator=(DispatchBuilder&&);
+
+        // prevent copy operations
         DispatchBuilder(const DispatchBuilder &) = delete;
         DispatchBuilder& operator=(const DispatchBuilder &) = delete;
 

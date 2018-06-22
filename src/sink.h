@@ -9,6 +9,11 @@ namespace Kern {
     class Sink {
     public:
         virtual ~Sink() { };
+
+        Sink(Sink&&);
+        Sink& operator=(Sink&&);
+
+        // prevent copy operations
         Sink(const Sink &) = delete;
         Sink& operator=(const Sink &) = delete;
 
@@ -21,15 +26,12 @@ namespace Kern {
 
     class StdoutSink : public Sink {
     public:
-        StdoutSink() { };
         void write(const char *);
     };
 
 
     class StderrSink : public Sink {
     public:
-        StderrSink() { };
-
         void write(const char *);
     };
 
