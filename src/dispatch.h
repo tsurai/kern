@@ -9,13 +9,23 @@
 #include "info.h"
 #include "sink.h"
 
+#ifdef _WIN32
+    #ifdef BUILD_DLL
+        #define DECLSPEC __declspec(dllexport)
+    #else
+        #define DECLSPEC __declspec(dllimport)
+    #endif
+#else
+    #define DECLSPEC
+#endif
+
 namespace Kern {
     constexpr size_t buf_size = 256;
 
     typedef std::function<void (const Metadata &, const char *, char *)> FnFormat;
     typedef std::function<bool (const Metadata &)> FnFilter;
 
-    class Dispatch {
+    class DECLSPEC Dispatch {
         friend class DispatchBuilder;
     public:
         ~Dispatch();

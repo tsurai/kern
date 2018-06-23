@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.0)
 project(kern)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -pedantic -D_FORTIFY_SOURCE=2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -pedantic -D_FORTIFY_SOURCE=2")
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+elseif(WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
 set(CMAKE_CXX_STANDARD 14)
-set(PROJECT_VERSION 0.1.0)
+set(PROJECT_VERSION 0.2.0)
 set(LOGGER_SOURCES
     src/dispatch.cpp
     src/builder.cpp
@@ -14,10 +20,18 @@ add_library(kern SHARED ${LOGGER_SOURCES})
 set_target_properties(kern PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(kern PROPERTIES PUBLIC_HEADER src/kern.h)
 
-include(GNUInstallDirs)
-install(TARGETS kern
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if(UNIX)
+    include(GNUInstallDirs)
+    install(TARGETS kern
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+elseif(WIN32)
+    set_target_properties(kern PROPERTIES DEFINE_SYMBOL BUILD_DLL)
+    install(TARGETS kern
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        PUBLIC_HEADER DESTINATION include COMPONENT devel)
+endif()
 
 option(TESTING "Enable unit tests with catch" OFF)
 if(TESTING)

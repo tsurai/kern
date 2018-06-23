@@ -1,6 +1,8 @@
 #include "sink.h"
 
+#ifdef __linux__
 #include <syslog.h>
+#endif
 #include <iostream>
 
 namespace Kern {
@@ -20,6 +22,7 @@ namespace Kern {
         this->file << msg << std::endl;
     }
 
+#ifdef __linux__
     SyslogSink::SyslogSink(const char *ident, int option, int facility) {
         openlog(ident, option, facility);
     }
@@ -52,5 +55,6 @@ namespace Kern {
 
         syslog(syslog_level, "%s", msg);
     }
+#endif
 }
 

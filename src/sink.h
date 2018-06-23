@@ -47,6 +47,7 @@ namespace Kern {
     };
 
 
+#ifdef __linux__
     class SyslogSink : public Sink {
     public:
         SyslogSink() = delete;
@@ -58,6 +59,7 @@ namespace Kern {
     private:
         int kern_lvl_to_syslog_lvl(LogLevel);
     };
+#endif
 }
 
 #endif //SINK_H
