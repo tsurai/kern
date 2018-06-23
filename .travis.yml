@@ -1,0 +1,30 @@
+language: cpp
+
+env:
+  global:
+    - LINUX_DIST=trusty
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: true
+      compiler: 
+        - gcc
+        - clang
+      addons:
+       apt:
+         packages:
+           - g++-4.8
+           - clang-3.7
+           - valgrind
+         sources:
+           - ubuntu-toolchain-r-test
+           - llvm-toolchain-precise-3.7
+
+script:
+     - mkdir -p build
+     - cd build
+     - cmake -DTESTING=on .. 
+     - make
+     - tests
