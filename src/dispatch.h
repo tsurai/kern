@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #include "info.h"
@@ -49,8 +50,10 @@ namespace Kern {
 
                     this->format_func(meta, buf_msg, buf_out);
 
-                    if(output_sink != nullptr)
+                    if(output_sink != nullptr) {
+                        std::lock_guard<std::mutex> lock(mtx);
                         this->output_sink->write_ext(meta, buf_out);
+                    }
 
                     for(auto const& val: this->dchain) {
                         val->write(level, src_file, src_func, line, buf_msg);
@@ -74,6 +77,7 @@ namespace Kern {
         std::vector<std::unique_ptr<Dispatch>> dchain;
 
         static std::unique_ptr<Dispatch> global_dispatch;
+        static std::mutex mtx;
     };
 }
 

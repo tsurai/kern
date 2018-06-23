@@ -2,6 +2,7 @@
 
 namespace Kern {
     std::unique_ptr<Dispatch> Dispatch::global_dispatch = nullptr;
+    std::mutex Dispatch::mtx;
 
     Dispatch::Dispatch() {
         this->output_sink = std::make_unique<StdoutSink>();
