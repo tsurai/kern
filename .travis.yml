@@ -22,12 +22,6 @@ matrix:
           packages:
             - g++-4.9
           sources: *sources
-    - env: CXX=clang++-3.8 CC=clang-3.8
-      addons:
-        apt:
-          packages:
-            - clang-3.8
-          sources: *sources
     - env: CXX=clang++-3.7 CC=clang-3.7
       addons:
         apt:
@@ -45,4 +39,4 @@ script:
      - cd build
      - cmake -DTESTING=on .. 
      - make
-     - tests
+     - ./tests
