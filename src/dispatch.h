@@ -27,14 +27,14 @@ namespace Kern {
         Dispatch& operator=(const Dispatch &) = delete;
 
         template <typename ... Args>
-        void write(LogLevel level, const char *src, const char *fn, int line, const char *fmt, Args const & ...args) noexcept {
+        void write(LogLevel level, const char *src_file, const char *src_func, int line, const char *fmt, Args const & ...args) noexcept {
             if(static_cast<int>(this->log_level & level) != 0) {
                 Metadata meta = {
-                    .level = level,
-                    .level_str = level_to_str(level),
-                    .file = src,
-                    .function = fn,
-                    .line = line
+                    level,
+                    level_to_str(level),
+                    src_file,
+                    src_func,
+                    line
                 };
 
                 if(this->filter_func == nullptr || this->filter_func(meta)) {
@@ -53,7 +53,7 @@ namespace Kern {
                         this->output_sink->write_ext(meta, buf_out);
 
                     for(auto const& val: this->dchain) {
-                        val->write(level, src, fn, line, buf_msg);
+                        val->write(level, src_file, src_func, line, buf_msg);
                     }
                 }
             }

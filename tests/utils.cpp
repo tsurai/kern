@@ -3,7 +3,7 @@
 
 BufSink::BufSink(char *buf) {
     this->buf = buf;
-};
+}
 
 void BufSink::write(const char *msg) {
     snprintf(buf, 256, "%s", msg);

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(kern)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -pedantic -D_FORTIFY_SOURCE=2")
 set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_VERSION 0.1.0)
 set(LOGGER_SOURCES

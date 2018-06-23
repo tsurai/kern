@@ -11,6 +11,10 @@ public:
     BufSink() = delete;
     BufSink(char *buf);
 
+    // prevent copy operations
+    BufSink(const BufSink&) = delete;
+    BufSink operator=(const BufSink&) = delete;
+
     void write(const char *msg);
 private:
     char *buf;
