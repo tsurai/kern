@@ -2,6 +2,7 @@
 
 namespace Kern {
     DispatchBuilder::DispatchBuilder() {
+        // The constructor of Dispatch guarantees a valid default state.
         this->inner = new Dispatch();
     }
 
@@ -32,6 +33,8 @@ namespace Kern {
         return *this;
     }
 
+    // The argument is being used as a bitflag and should contain all level
+    // that the Dispatch should log.
     DispatchBuilder &DispatchBuilder::level(LogLevel level) {
         if(this->inner == nullptr)
             throw BuilderReuseException();
@@ -54,6 +57,9 @@ namespace Kern {
         return *this;
     }
 
+    // Adds a child Dispatch to the current Dispatch objects chain vector.
+    // The child inherits every non default properties of its parent unless
+    // already otherwise changed.
     DispatchBuilder &DispatchBuilder::chain(std::unique_ptr<Dispatch> dispatch) {
         if(this->inner == nullptr)
             throw BuilderReuseException();
@@ -73,21 +79,28 @@ namespace Kern {
         if(!this->inner->is_def_level && dispatch->is_def_level)
             dispatch->log_level = this->inner->log_level;
 
-        this->inner->dchain.push_back(std::move(dispatch));
+        this->inner->chain.push_back(std::move(dispatch));
 
         return *this;
     }
 
+    // Returns the completely built Dispatch object. Calling this method will
+    // exhaust the Builder preventing any more objects from being built.
     std::unique_ptr<Dispatch> DispatchBuilder::build() {
          if(this->inner == nullptr)
             throw BuilderReuseException();
 
         auto d = std::unique_ptr<Dispatch>(this->inner);
+
+        // Marks the Builder as being exhausted.
         this->inner = nullptr;
 
         return d;
     }
 
+    // Assign the built object to the global Dispatch causing all logging
+    // macros to use this Dispatch. The call to the build() method exhausts
+    // the DispatchBuilder object.
     void DispatchBuilder::apply() {
         auto d = this->build();
         Dispatch::global_dispatch.swap(d);

@@ -22,7 +22,6 @@ error("lorem ipsum");
 
 * [x] thread safety
 * [ ] example code
-* [ ] documentation
 
 ### Testing
 

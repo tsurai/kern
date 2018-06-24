@@ -9,6 +9,7 @@
 #include "info.h"
 #include "sink.h"
 
+// Necessary o properly export and import all symbols on Windows.
 #ifdef _WIN32
     #ifdef BUILD_DLL
         #define DECLSPEC __declspec(dllexport)
@@ -20,12 +21,22 @@
 #endif
 
 namespace Kern {
+    // Size of the internal format and output buffer
     constexpr size_t buf_size = 256;
 
+    // Allows direct control of how a log message should be formatted inside
+    // of the internal buffer before writing it out to the output Sink.
     typedef std::function<void (const Metadata &, const char *, char *)> FnFormat;
+
+    // Allows log messages to be filtered based on metadata before being
+    // passed to the output Sink.
     typedef std::function<bool (const Metadata &)> FnFilter;
 
+    // Formats and dispatches log messages to its output Sink and children.
+    // Dispatch objects can not be created directly but use the DispatchBuilder
+    // class for construction.
     class DECLSPEC Dispatch {
+        // Grants DispatchBuilder full access for building Dispatch objects.
         friend class DispatchBuilder;
     public:
         ~Dispatch();
@@ -33,12 +44,14 @@ namespace Kern {
         Dispatch(Dispatch&&);
         Dispatch& operator=(Dispatch&&);
 
-        // prevent copy operations
+        // Prevent copy operations.
         Dispatch(const Dispatch &) = delete;
         Dispatch& operator=(const Dispatch &) = delete;
 
+        // Processes the raw logging data and passes the final output message
+        // an output Sink and child Dispatches.
         template <typename ... Args>
-        void write(LogLevel level, const char *src_file, const char *src_func, int line, const char *fmt, Args const & ...args) noexcept {
+        void write(LogLevel level, const char *src_file, const char *src_func, int line, const char *fmt, Args const & ...args) {
             if(static_cast<int>(this->log_level & level) != 0) {
                 Metadata meta = {
                     level,
@@ -52,20 +65,26 @@ namespace Kern {
                     char buf_out[buf_size];
                     char buf_msg[buf_size];
 
-                    // prevent access to uninitialized memory in case the
-                    // format function does not fill the buffer
+                    // Prevent access to uninitialized memory in case the
+                    // format function does not fill the buffer.
                     buf_out[0] = '\0';
 
+                    // Process the printf style input from the logging macros
                     snprintf(buf_msg, buf_size, fmt, args...);
 
+                    // Pass the formatted log message to the format function
+                    // for further adjustments with the metadata.
                     this->format_func(meta, buf_msg, buf_out);
 
                     if(output_sink != nullptr) {
+                        // Locks the mutex for thread safe access to the
+                        // output sink.
                         std::lock_guard<std::mutex> lock(mtx);
                         this->output_sink->write_ext(meta, buf_out);
                     }
 
-                    for(auto const& val: this->dchain) {
+                    // Pass the log message to all children Dispatch.
+                    for(auto const& val: this->chain) {
                         val->write(level, src_file, src_func, line, buf_msg);
                     }
                 }
@@ -76,17 +95,23 @@ namespace Kern {
             return global_dispatch;
         }
     private:
+        // Prevent direct construction to enforce the usage of the
+        // DisbatchBuilder.
         Dispatch();
 
         bool is_def_format = true;
         bool is_def_level = true;
+
         FnFilter filter_func;
         FnFormat format_func;
         LogLevel log_level;
         std::unique_ptr<Sink> output_sink;
-        std::vector<std::unique_ptr<Dispatch>> dchain;
+        std::vector<std::unique_ptr<Dispatch>> chain;
 
+        // Holds the global root Dispatch being used by the logging macros.
         static std::unique_ptr<Dispatch> global_dispatch;
+
+        // Used for locking prior to potentional thread unsafe methods.
         static std::mutex mtx;
     };
 }

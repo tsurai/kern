@@ -6,6 +6,7 @@
 #include "info.h"
 
 namespace Kern {
+    // Abstract Sink interface to be implemented for different output targets.
     class Sink {
     public:
         virtual ~Sink() { };
@@ -13,29 +14,32 @@ namespace Kern {
         Sink(Sink&&);
         Sink& operator=(Sink&&);
 
-        // prevent copy operations
+        // Prevent copy operations.
         Sink(const Sink &) = delete;
         Sink& operator=(const Sink &) = delete;
 
         virtual void write(const char *) = 0;
+
+        // Optional extended write method with additional metadata.
         virtual void write_ext(const Metadata &, const char *);
     protected:
         Sink() { };
     };
 
 
+    // Outputs messages to stdout
     class StdoutSink : public Sink {
     public:
         void write(const char *);
     };
 
-
+    // Outputs messages to stderr
     class StderrSink : public Sink {
     public:
         void write(const char *);
     };
 
-
+    // Outputs messages to a logfile
     class FileSink : public Sink {
     public:
         FileSink() = delete;
@@ -46,8 +50,8 @@ namespace Kern {
         std::ofstream file;
     };
 
-
 #ifdef __linux__
+    // Outputs messages to the syslogd service on linux
     class SyslogSink : public Sink {
     public:
         SyslogSink() = delete;

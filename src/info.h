@@ -2,6 +2,8 @@
 #define INFO_H
 
 namespace Kern {
+    // Various log levels to allow targeted redirection and formatting of
+    // log messages
     enum class LogLevel : char {
         Trace   = 1 << 0,
         Debug   = 1 << 1,
@@ -12,6 +14,7 @@ namespace Kern {
         All     = (1 << 6) - 1
     };
 
+    // Operator for Bitflag like behavior
     LogLevel operator|(LogLevel, LogLevel);
     LogLevel operator&(LogLevel, LogLevel);
     LogLevel operator^(LogLevel, LogLevel);

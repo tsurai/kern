@@ -6,6 +6,8 @@
 #include <iostream>
 
 namespace Kern {
+    // Default behavior for derived classes without an own implementation.
+    // Ignores the metadata and pass the message directly to the write method.
     void Sink::write_ext(const Metadata &, const char *msg) {
         this->write(msg);
     }
@@ -23,6 +25,7 @@ namespace Kern {
     }
 
 #ifdef __linux__
+    // Opens a connection to the system logger
     SyslogSink::SyslogSink(const char *ident, int option, int facility) {
         openlog(ident, option, facility);
     }
@@ -31,6 +34,7 @@ namespace Kern {
         closelog();
     }
 
+    // Maps the internal logging level to syslogs level
     int SyslogSink::kern_lvl_to_syslog_lvl(LogLevel level) {
         switch(level) {
             case LogLevel::Trace:
@@ -50,6 +54,7 @@ namespace Kern {
         }
     }
 
+    // Writes logging messages to slog with the corresponding priority
     void SyslogSink::write_ext(const Metadata &meta, const char *msg) {
         int syslog_level = this->kern_lvl_to_syslog_lvl(meta.level);
 

@@ -4,6 +4,9 @@ namespace Kern {
     std::unique_ptr<Dispatch> Dispatch::global_dispatch = nullptr;
     std::mutex Dispatch::mtx;
 
+    // Constructs a valid Dispatch object. This Constructor can only be called
+    // from the DispatchBuilder to initiate it's inner object with a valid
+    // state.
     Dispatch::Dispatch() {
         this->output_sink = std::make_unique<StdoutSink>();
         this->log_level = LogLevel::All;
@@ -14,7 +17,7 @@ namespace Kern {
     }
 
     Dispatch::~Dispatch() {
-        this->dchain.clear();
+        this->chain.clear();
         this->output_sink = nullptr;
     }
 }
