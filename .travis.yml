@@ -16,7 +16,7 @@ matrix:
             - llvm-toolchain-precise
             - llvm-toolchain-precise-3.7
             - llvm-toolchain-precise-3.6
-    - env: CXX=g++-4.9 CC=gcc-4.9
+    - env: CXX=g++-4.9 CC=gcc-4.9 CODECOV=1
       addons:
         apt:
           packages:
@@ -37,6 +37,16 @@ matrix:
 script:
      - mkdir -p build
      - cd build
-     - cmake -DTESTING=on .. 
+     - cmake -DCMAKE_BUILD_TYPE=Debug -DTESTING=on ..
      - make
      - ./tests
+
+after_success:
+    - |
+      if [[ "${CODECOV}" == "1" ]]; then
+        cd ${TRAVIS_BUILD_DIR}
+        lcov --directory . --capture --output-file coverage.info # capture coverage info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
+        lcov --list coverage.info #debug info
+        bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+      fi

@@ -35,6 +35,16 @@ endif()
 
 option(TESTING "Enable unit tests with catch" OFF)
 if(TESTING)
+    if(UNIX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+    endif()
+
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        include(CodeCoverage)
+        setup_target_for_coverage(${PROJECT_NAME}_coverage tests coverage)
+    endif()
+
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/tests/catch)
     include_directories(${CMAKE_SOURCE_DIR}/tests/catch ${COMMON_INCLUDES})
 
