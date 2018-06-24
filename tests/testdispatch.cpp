@@ -1,15 +1,51 @@
-#include "catch.hpp"
-#include "kern.h"
-#include "utils.h"
+#include "dispatch.h"
+
 #include <cstdio>
 #include <cstring>
 #include <stdio.h>
 
+#include "catch.hpp"
+#include "kern.h"
+#include "utils.h"
+
 using namespace Kern;
 
-TEST_CASE("Dispatch filters messages") {
-    char *buf = (char *)calloc(1, 16);
-    REQUIRE( buf != nullptr );
+TEST_CASE("Dispatch filters by level") {
+    char buf[16];
+    buf[0] = '\0';
+
+    const char *res = "[info] foobar";
+
+    DispatchBuilder()
+        .sink(std::make_unique<BufSink>(buf))
+        .level(LogLevel::Info)
+        .apply();
+
+    trace("foobar");
+    CHECK( buf[0] == '\0' );
+
+    debug("foobar");
+    CHECK( buf[0] == '\0' );
+
+    warning("foobar");
+    CHECK( buf[0] == '\0' );
+
+    error("foobar");
+    CHECK( buf[0] == '\0' );
+
+    fatal("foobar");
+    CHECK( buf[0] == '\0' );
+
+    info("foobar");
+    CHECK( strncmp(buf, res, strlen(res)) == 0 );
+
+}
+
+TEST_CASE("Dispatch filters by filter function") {
+    char buf[16];
+    buf[0] = '\0';
+
+    const char *res = "[info] foobar";
 
     DispatchBuilder()
         .sink(std::make_unique<BufSink>(buf))
@@ -22,7 +58,7 @@ TEST_CASE("Dispatch filters messages") {
     CHECK( buf[0] == '\0' );
 
     info("foobar");
-    CHECK( strncmp(buf, "[info] foobar", 13) == 0 );
+    CHECK( strncmp(buf, res, strlen(res)) == 0 );
 }
 
 TEST_CASE("Dispatch formats the output message") {

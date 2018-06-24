@@ -67,10 +67,6 @@ namespace Kern {
         if(dispatch == nullptr)
             throw std::invalid_argument("dispatch argument is NULL");
 
-        // inherit filter function if not otherwise specified
-        if(this->inner->filter_func != nullptr && dispatch->filter_func != nullptr)
-            dispatch->filter_func = this->inner->filter_func;
-
         // inherit format function
         if(!this->inner->is_def_format && dispatch->is_def_format)
             dispatch->format_func = this->inner->format_func;

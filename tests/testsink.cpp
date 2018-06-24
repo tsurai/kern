@@ -1,8 +1,10 @@
-#include "catch.hpp"
 #include "sink.h"
-#include "utils.h"
+
 #include <cstdio>
 #include <stdio.h>
+
+#include "catch.hpp"
+#include "utils.h"
 
 using namespace Kern;
 

@@ -32,7 +32,7 @@ namespace Kern {
             case LogLevel::Fatal:
                 return "fatal";
             default:
-                return "unknown";
+                return "N/A";
         }
     }
 }
