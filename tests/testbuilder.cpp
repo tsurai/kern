@@ -66,15 +66,3 @@ TEST_CASE("DispatchBuilder inherents Dispatch properties to its chain") {
     info("foobar");
     CHECK( strncmp(buf_child, res, strlen(res)) == 0 );
 }
-
-TEST_CASE("DispatchBuilder can set the global logger") {
-    DispatchBuilder()
-        .apply();
-
-    auto streams = redirect_std_streams();
-
-    info("foobar");
-    CHECK( streams.cout_oss->str() == "[info] foobar\n" );
-
-    restore_std_streams(streams);
-}

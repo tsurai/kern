@@ -26,7 +26,6 @@ namespace Kern {
         Sink() { };
     };
 
-
     // Outputs messages to stdout
     class StdoutSink : public Sink {
     public:

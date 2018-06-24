@@ -8,7 +8,7 @@ namespace Kern {
     // from the DispatchBuilder to initiate it's inner object with a valid
     // state.
     Dispatch::Dispatch() {
-        this->output_sink = std::make_unique<StdoutSink>();
+        this->output_sink = nullptr;
         this->log_level = LogLevel::All;
         this->filter_func = nullptr;
         this->format_func = [](auto meta, auto msg, auto buf) {
