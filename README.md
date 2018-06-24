@@ -1,4 +1,4 @@
-kern [![Build Status](https://travis-ci.org/tsurai/kern.svg?branch=master)](https://travis-ci.org/tsurai/kern)
+kern [![Build Status](https://travis-ci.org/tsurai/kern.svg?branch=master)](https://travis-ci.org/tsurai/kern) [![codecov](https://codecov.io/gh/tsurai/kern/branch/master/graph/badge.svg)](https://codecov.io/gh/tsurai/kern)
 ===
 Simple C++ logging library using a branching method chaining interface inspired by the Rust crate [fern].
 
