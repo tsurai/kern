@@ -6,17 +6,18 @@ cache:
 
 matrix:
   include:
-    - env: CXX=g++-5 CC=gcc-5
+    - env: CXX=g++-5 CC=gcc-5 CODECOV=1
       addons:
         apt:
           packages:
             - g++-5
+            - lcov
           sources: &sources
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise
             - llvm-toolchain-precise-3.7
             - llvm-toolchain-precise-3.6
-    - env: CXX=g++-4.9 CC=gcc-4.9 CODECOV=1
+    - env: CXX=g++-4.9 CC=gcc-4.9
       addons:
         apt:
           packages:
