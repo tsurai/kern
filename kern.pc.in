@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+Name: kern
+Description: kern logging library
+Version: @PROJECT_VERSION@
+
+Requires:
+Libs: -L${libdir} -lkern
+Cflags: -I${includedir}

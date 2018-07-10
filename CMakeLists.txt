@@ -31,6 +31,10 @@ if(UNIX)
     install(TARGETS kern
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}" COMPONENT dev)
+
+    set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkconfig files")
+    configure_file("kern.pc.in" "kern.pc" @ONLY)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/kern.pc" DESTINATION "${INSTALL_PKGCONFIG_DIR}")
 elseif(WIN32)
     set_target_properties(kern PROPERTIES DEFINE_SYMBOL BUILD_DLL)
     install(TARGETS kern
