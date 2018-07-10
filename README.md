@@ -3,6 +3,8 @@ kern [![Build Status](https://travis-ci.org/tsurai/kern.svg?branch=master)](http
 Simple C++ logging library using a branching method chaining interface inspired by the Rust crate [fern].
 
 ```c++
+#include <kern/kern.h>
+
 DispatchBuilder()
     // accept messages for all level
     .level(LogLevel::All)

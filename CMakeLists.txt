@@ -10,21 +10,27 @@ endif()
 
 set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_VERSION 0.2.0)
-set(LOGGER_SOURCES
+set(KERN_SOURCES
     src/dispatch.cpp
     src/builder.cpp
     src/sink.cpp
     src/info.cpp)
+set(KERN_HEADER
+    src/kern.h
+    src/dispatch.h
+    src/builder.h
+    src/info.h
+    src/sink.h)
 
-add_library(kern SHARED ${LOGGER_SOURCES})
+add_library(kern SHARED ${KERN_SOURCES})
 set_target_properties(kern PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(kern PROPERTIES PUBLIC_HEADER src/kern.h)
+set_target_properties(kern PROPERTIES PUBLIC_HEADER "${KERN_HEADER}")
 
 if(UNIX)
     include(GNUInstallDirs)
     install(TARGETS kern
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}" COMPONENT dev)
 elseif(WIN32)
     set_target_properties(kern PROPERTIES DEFINE_SYMBOL BUILD_DLL)
     install(TARGETS kern
