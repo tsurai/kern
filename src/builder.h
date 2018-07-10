@@ -7,7 +7,7 @@
 #include "info.h"
 #include "sink.h"
 
-namespace Kern {
+namespace kern {
     class BuilderReuseException : public std::exception {
         const char *what() const throw() {
             return "Reuse of consumed builder";

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iostream>
 
-class BufSink : public Kern::Sink {
+class BufSink : public kern::Sink {
 public:
     BufSink() = delete;
     BufSink(char *buf);

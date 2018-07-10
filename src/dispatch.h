@@ -20,7 +20,7 @@
     #define DECLSPEC
 #endif
 
-namespace Kern {
+namespace kern {
     // Size of the internal format and output buffer
     constexpr size_t buf_size = 256;
 

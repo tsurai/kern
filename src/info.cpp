@@ -1,6 +1,6 @@
 #include "info.h"
 
-namespace Kern {
+namespace kern {
     LogLevel operator|(LogLevel lhs, LogLevel rhs) {
         return static_cast<LogLevel>(static_cast<char>(lhs) | static_cast<char>(rhs));
     }

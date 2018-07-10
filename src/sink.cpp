@@ -5,7 +5,7 @@
 #endif
 #include <iostream>
 
-namespace Kern {
+namespace kern {
     // Default behavior for derived classes without an own implementation.
     // Ignores the metadata and pass the message directly to the write method.
     void Sink::write_ext(const Metadata &, const char *msg) {

@@ -4,7 +4,7 @@
 #include "builder.h"
 #include "dispatch.h"
 
-namespace Kern {
+namespace kern {
     #define log(lvl, ...) Dispatch::get_logger()->write(lvl, __FILE__, __func__, __LINE__, __VA_ARGS__)
 
     #define trace(...) log(LogLevel::Trace, __VA_ARGS__)

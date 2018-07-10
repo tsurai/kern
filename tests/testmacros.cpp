@@ -7,7 +7,7 @@
 
 #include "utils.h"
 
-using namespace Kern;
+using namespace kern;
 
 TEST_CASE("Macros pass the correct level") {
     char buf[32];

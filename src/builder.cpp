@@ -1,6 +1,6 @@
 #include "builder.h"
 
-namespace Kern {
+namespace kern {
     DispatchBuilder::DispatchBuilder() {
         // The constructor of Dispatch guarantees a valid default state.
         this->inner = new Dispatch();

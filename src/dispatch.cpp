@@ -1,6 +1,6 @@
 #include "dispatch.h"
 
-namespace Kern {
+namespace kern {
     std::unique_ptr<Dispatch> Dispatch::global_dispatch = nullptr;
     std::mutex Dispatch::mtx;
 

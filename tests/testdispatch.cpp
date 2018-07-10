@@ -8,7 +8,7 @@
 #include "kern.h"
 #include "utils.h"
 
-using namespace Kern;
+using namespace kern;
 
 TEST_CASE("Dispatch filters by level") {
     char buf[16];

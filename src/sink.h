@@ -5,7 +5,7 @@
 
 #include "info.h"
 
-namespace Kern {
+namespace kern {
     // Abstract Sink interface to be implemented for different output targets.
     class Sink {
     public:

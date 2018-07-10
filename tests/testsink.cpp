@@ -6,7 +6,7 @@
 #include "catch.hpp"
 #include "utils.h"
 
-using namespace Kern;
+using namespace kern;
 
 TEST_CASE("StdoutSink outputs to stdout only") {
     auto streams = redirect_std_streams();

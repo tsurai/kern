@@ -9,7 +9,7 @@
 #include "utils.h"
 
 
-using namespace Kern;
+using namespace kern;
 using namespace Catch::Matchers;
 
 TEST_CASE("DispatchBuilder doesn't accept invalid arguments") {

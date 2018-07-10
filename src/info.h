@@ -1,7 +1,7 @@
 #ifndef INFO_H
 #define INFO_H
 
-namespace Kern {
+namespace kern {
     // Various log levels to allow targeted redirection and formatting of
     // log messages
     enum class LogLevel : char {
