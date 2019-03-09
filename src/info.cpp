@@ -17,6 +17,14 @@ namespace kern {
         return static_cast<LogLevel>(~static_cast<char>(rhs));
     }
 
+    LogLevel& operator|= (LogLevel &lhs, LogLevel rhs) {
+        return lhs = lhs | rhs;
+    }
+
+    LogLevel& operator&= (LogLevel &lhs, LogLevel rhs) {
+        return lhs = lhs & rhs;
+    }
+
     const char *level_to_str(const LogLevel &level) {
         switch(level) {
             case LogLevel::Trace:

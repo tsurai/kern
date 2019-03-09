@@ -19,6 +19,8 @@ namespace kern {
     LogLevel operator&(LogLevel, LogLevel);
     LogLevel operator^(LogLevel, LogLevel);
     LogLevel operator~(LogLevel);
+    LogLevel& operator|= (LogLevel &, LogLevel);
+    LogLevel& operator&= (LogLevel &, LogLevel);
 
     const char *level_to_str(const LogLevel &);
 

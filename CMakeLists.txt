@@ -61,6 +61,7 @@ if(TESTING)
         tests/testdispatch.cpp
         tests/testsink.cpp
         tests/testmacros.cpp
+        tests/testoperators.cpp
         tests/utils.cpp)
 
     add_executable(tests
