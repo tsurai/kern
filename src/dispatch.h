@@ -108,7 +108,7 @@ namespace kern {
         FnFilter filter_func;
         FnFormat format_func;
         LogLevel log_level;
-        std::unique_ptr<Sink> output_sink;
+        std::shared_ptr<Sink> output_sink;
         std::vector<std::unique_ptr<Dispatch>> chain;
 
         // Holds the global root Dispatch being used by the logging macros.

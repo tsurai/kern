@@ -18,6 +18,6 @@ namespace kern {
 
     Dispatch::~Dispatch() {
         this->chain.clear();
-        this->output_sink = nullptr;
+        this->output_sink.reset();
     }
 }

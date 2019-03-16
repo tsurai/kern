@@ -42,26 +42,21 @@ TEST_CASE("DispatchBuilder creates valid default object") {
 }
 
 TEST_CASE("DispatchBuilder inherents Dispatch properties to its chain") {
-    char buf_parent[16];
-    char buf_child[16];
-    buf_child[0] = '\0';
+    char buf[16];
+    buf[0] = '\0';
 
     const char *res = "foobar";
 
     DispatchBuilder()
-        .sink(std::make_unique<BufSink>(buf_parent))
+        .sink(std::make_unique<BufSink>(buf))
         .format([](auto, auto msg, auto buf) {
             snprintf(buf, 16, "%s", msg);
         })
-        .level(LogLevel::Info)
         .chain(DispatchBuilder()
-            .sink(std::make_unique<BufSink>(buf_child))
+            .level(LogLevel::Info)
             .build())
         .apply();
 
-    error("foobar");
-    CHECK( buf_child[0] == '\0' );
-
     info("foobar");
-    CHECK( strncmp(buf_child, res, strlen(res)) == 0 );
+    CHECK( strncmp(buf, res, strlen(res)) == 0 );
 }

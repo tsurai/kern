@@ -99,6 +99,10 @@ namespace kern {
         if(!this->inner->is_def_level && dispatch->is_def_level)
             dispatch->log_level = this->inner->log_level;
 
+        // inherit sink
+        if(dispatch->output_sink == nullptr)
+            dispatch->output_sink = this->inner->output_sink;
+
         this->inner->chain.push_back(std::move(dispatch));
 
         return *this;
