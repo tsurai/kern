@@ -8,7 +8,6 @@
 #include "kern.h"
 #include "utils.h"
 
-
 using namespace kern;
 using namespace Catch::Matchers;
 

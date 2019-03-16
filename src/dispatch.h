@@ -9,7 +9,7 @@
 #include "info.h"
 #include "sink.h"
 
-// Necessary o properly export and import all symbols on Windows.
+// Necessary to properly export and import all symbols on Windows.
 #ifdef _WIN32
     #ifdef BUILD_DLL
         #define DECLSPEC __declspec(dllexport)
@@ -92,6 +92,9 @@ namespace kern {
         }
 
         static std::unique_ptr<Dispatch> &get_logger() {
+            if(!global_dispatch)
+                throw std::logic_error("Logger has been accessed without being initialized");
+
             return global_dispatch;
         }
     private:
