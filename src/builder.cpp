@@ -45,6 +45,19 @@ namespace kern {
         return *this;
     }
 
+    // The argument is being used to calculate a bitmask filtering all level
+    // below the given level.
+    DispatchBuilder &DispatchBuilder::min_level(LogLevel level) {
+        if(this->inner == nullptr)
+            throw BuilderReuseException();
+
+        this->inner->log_level = LogLevel::All ^ static_cast<LogLevel>(static_cast<char>(level) - 1);
+        this->inner->is_def_level = false;
+
+        return *this;
+    }
+
+
     DispatchBuilder &DispatchBuilder::sink(std::unique_ptr<Sink> sink) {
         if(this->inner == nullptr)
             throw BuilderReuseException();

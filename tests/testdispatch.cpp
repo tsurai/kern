@@ -38,7 +38,42 @@ TEST_CASE("Dispatch filters by level") {
 
     info("foobar");
     CHECK( strncmp(buf, res, strlen(res)) == 0 );
+}
 
+TEST_CASE("Dispatch filters by min_level") {
+    char buf[16];
+    buf[0] = '\0';
+
+    const char *res_info = "[info] foobar";
+    const char *res_warning = "[warning] foobar";
+    const char *res_error = "[error] foobar";
+    const char *res_fatal = "[fatal] foobar";
+
+    DispatchBuilder()
+        .sink(std::make_unique<BufSink>(buf))
+        .min_level(LogLevel::Info)
+        .apply();
+
+    trace("foobar");
+    CHECK( buf[0] == '\0' );
+
+    debug("foobar");
+    CHECK( buf[0] == '\0' );
+
+    info("foobar");
+    CHECK( strncmp(buf, res_info, strlen(res_info)) == 0 );
+    bzero((void *)buf, strlen(res_info));
+
+    warning("foobar");
+    CHECK( strncmp(buf, res_warning, strlen(res_warning)) == 0 );
+    bzero((void *)buf, strlen(res_warning));
+
+    error("foobar");
+    CHECK( strncmp(buf, res_error, strlen(res_error)) == 0 );
+    bzero((void *)buf, strlen(res_error));
+
+    fatal("foobar");
+    CHECK( strncmp(buf, res_fatal, strlen(res_fatal)) == 0 );
 }
 
 TEST_CASE("Dispatch filters by filter function") {
