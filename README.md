@@ -20,9 +20,9 @@ DispatchBuilder()
         })
         .sink(std::make_unique<FileSink>("/var/log/foobar.trace"))
         .build())
-    // write error messages to stdout and stderr
+    // write error and fatal messages to stdout and stderr
     .chain(DispatchBuilder()
-        .level(LogLevel::Error)
+        .min_level(LogLevel::Error)
         .sink(std::make_unique<StderrSink>())
         // additionaly write error messages into a log file
         .chain(DispatchBuilder()
