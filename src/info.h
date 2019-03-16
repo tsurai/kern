@@ -15,14 +15,14 @@ namespace kern {
     };
 
     // Operator for Bitflag like behavior
-    LogLevel operator|(LogLevel, LogLevel);
-    LogLevel operator&(LogLevel, LogLevel);
-    LogLevel operator^(LogLevel, LogLevel);
-    LogLevel operator~(LogLevel);
-    LogLevel& operator|= (LogLevel &, LogLevel);
-    LogLevel& operator&= (LogLevel &, LogLevel);
+    LogLevel operator|(LogLevel, LogLevel) noexcept;
+    LogLevel operator&(LogLevel, LogLevel) noexcept;
+    LogLevel operator^(LogLevel, LogLevel) noexcept;
+    LogLevel operator~(LogLevel) noexcept;
+    LogLevel& operator|= (LogLevel &, LogLevel) noexcept;
+    LogLevel& operator&= (LogLevel &, LogLevel) noexcept;
 
-    const char *level_to_str(const LogLevel &);
+    const char *level_to_str(const LogLevel &) noexcept;
 
     struct Metadata {
         LogLevel level;

@@ -3,7 +3,7 @@
 
 using namespace kern;
 
-TEST_CASE("bitwise operators calculate the correct value") {
+TEST_CASE("Bitwise operators calculate the correct value") {
     auto level = LogLevel::Trace | LogLevel::Debug;
     CHECK( (char)level == (1 << 0 | 1 << 1) );
 
@@ -17,7 +17,7 @@ TEST_CASE("bitwise operators calculate the correct value") {
     CHECK( (char)level == ~(1 << 0) );
 }
 
-TEST_CASE("compound assignment operations calculate the correct value") {
+TEST_CASE("Compound assignment operations calculate the correct value") {
     auto level = LogLevel::Trace;
     level |= LogLevel::Debug;
 
