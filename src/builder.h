@@ -36,6 +36,7 @@ namespace kern {
         DispatchBuilder &format(FnFormat);
         DispatchBuilder &level(LogLevel);
         DispatchBuilder &min_level(LogLevel);
+        DispatchBuilder &max_level(LogLevel);
         DispatchBuilder &sink(std::unique_ptr<Sink>);
         DispatchBuilder &chain(std::unique_ptr<Dispatch>);
 

@@ -10,6 +10,13 @@
 
 using namespace kern;
 
+const char *res_trace = "[trace] foobar";
+const char *res_debug = "[debug] foobar";
+const char *res_info = "[info] foobar";
+const char *res_warning = "[warning] foobar";
+const char *res_error = "[error] foobar";
+const char *res_fatal = "[fatal] foobar";
+
 TEST_CASE("Dispatch filters by level") {
     char buf[16];
     buf[0] = '\0';
@@ -44,11 +51,6 @@ TEST_CASE("Dispatch filters by min_level") {
     char buf[16];
     buf[0] = '\0';
 
-    const char *res_info = "[info] foobar";
-    const char *res_warning = "[warning] foobar";
-    const char *res_error = "[error] foobar";
-    const char *res_fatal = "[fatal] foobar";
-
     DispatchBuilder()
         .sink(std::make_unique<BufSink>(buf))
         .min_level(LogLevel::Info)
@@ -76,11 +78,40 @@ TEST_CASE("Dispatch filters by min_level") {
     CHECK( strncmp(buf, res_fatal, strlen(res_fatal)) == 0 );
 }
 
-TEST_CASE("Dispatch filters by filter function") {
+TEST_CASE("Dispatch filters by max_level") {
     char buf[16];
     buf[0] = '\0';
 
-    const char *res = "[info] foobar";
+    DispatchBuilder()
+        .sink(std::make_unique<BufSink>(buf))
+        .max_level(LogLevel::Info)
+        .apply();
+
+    trace("foobar");
+    CHECK( strncmp(buf, res_trace, strlen(res_trace)) == 0 );
+    bzero((void *)buf, strlen(res_trace));
+
+    debug("foobar");
+    CHECK( strncmp(buf, res_debug, strlen(res_debug)) == 0 );
+    bzero((void *)buf, strlen(res_debug));
+
+    info("foobar");
+    CHECK( strncmp(buf, res_info, strlen(res_info)) == 0 );
+    bzero((void *)buf, strlen(res_info));
+
+    warning("foobar");
+    CHECK( buf[0] == '\0' );
+
+    error("foobar");
+    CHECK( buf[0] == '\0' );
+
+    fatal("foobar");
+    CHECK( buf[0] == '\0' );
+}
+
+TEST_CASE("Dispatch filters by filter function") {
+    char buf[16];
+    buf[0] = '\0';
 
     DispatchBuilder()
         .sink(std::make_unique<BufSink>(buf))
@@ -93,7 +124,7 @@ TEST_CASE("Dispatch filters by filter function") {
     CHECK( buf[0] == '\0' );
 
     info("foobar");
-    CHECK( strncmp(buf, res, strlen(res)) == 0 );
+    CHECK( strncmp(buf, res_info, strlen(res_info)) == 0 );
 }
 
 TEST_CASE("Dispatch formats the output message") {
