@@ -8,6 +8,7 @@ Simple C++ logging library using a branching method chaining interface inspired 
 DispatchBuilder()
     // accept messages for all level
     .level(LogLevel::All)
+    .sink(std::make_unique<StdoutSink>())
     // prefix every log message with its level
     .format([](auto meta, auto msg, auto buf) {
         snprintf(buf, 256, "[%s] %s", meta.level_str, msg);
@@ -29,11 +30,8 @@ DispatchBuilder()
             .sink(std::make_unique<FileSink>("/var/log/foobar.err"))
             .build())
         .build())
-    // send all other messages to stdout
-    .chain(DispatchBuilder()
-        .level(~(LogLevel::Trace | LogLevel::Error))
-        .sink(std::make_unique<StdoutSink>())
-        .build())
+    // send all messages not catched by a chain to stdout
+    .filter_chains()
     .apply();
 
 info("foo");

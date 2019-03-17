@@ -20,6 +20,15 @@ namespace kern {
         return *this;
     }
 
+    DispatchBuilder &DispatchBuilder::filter_chains() {
+        if(this->inner == nullptr)
+            throw BuilderReuseException();
+
+        this->inner->filter_chains = true;
+
+        return *this;
+    }
+
     DispatchBuilder &DispatchBuilder::format(FnFormat func) {
         if(this->inner == nullptr)
             throw BuilderReuseException();

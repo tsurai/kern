@@ -154,6 +154,31 @@ TEST_CASE("Dispatch formats the input message") {
     CHECK( strncmp(buf, res, strlen(res)) == 0 );
 }
 
+TEST_CASE("Dispatch filters chained messages") {
+    char buf_debug[16];
+    buf_debug[0] = '\0';
+
+    char buf_info[16];
+    buf_info[0] = '\0';
+
+    DispatchBuilder()
+        .sink(std::make_unique<BufSink>(buf_info))
+        .chain(DispatchBuilder()
+            .level(LogLevel::Debug)
+            .sink(std::make_unique<BufSink>(buf_debug))
+            .build())
+        .filter_chains()
+        .apply();
+
+    debug("foobar");
+    CHECK( buf_info[0] == '\0' );
+    CHECK( strncmp(buf_debug, res_debug, strlen(res_debug)) == 0 );
+
+    info("foobar");
+    CHECK( strncmp(buf_info, res_info, strlen(res_info)) == 0 );
+}
+
+
 TEST_CASE("Prevent reads to uninitialized buffer memory") {
     char buf[32];
 

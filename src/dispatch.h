@@ -51,7 +51,9 @@ namespace kern {
         // Processes the raw logging data and passes the final output message
         // an output Sink and child Dispatches.
         template <typename ... Args>
-        void write(LogLevel level, const char *src_file, const char *src_func, int line, const char *fmt, Args const & ...args) {
+        bool write(LogLevel level, const char *src_file, const char *src_func, int line, const char *fmt, Args const & ...args) {
+            bool chain_delivered = false;
+
             if(static_cast<int>(this->log_level & level) != 0) {
                 Metadata meta = {
                     level,
@@ -76,19 +78,25 @@ namespace kern {
                     // for further adjustments with the metadata.
                     this->format_func(meta, buf_msg, buf_out);
 
-                    if(output_sink != nullptr) {
+                    // Pass the log message to all children Dispatch.
+                    for(auto const& val: this->chain) {
+                        if(val->write(level, src_file, src_func, line, buf_msg))
+                            chain_delivered = true;
+                    }
+
+                    // Filter messages previously processed by a chain
+                    if(output_sink != nullptr && !chain_delivered) {
                         // Locks the mutex for thread safe access to the
                         // output sink.
                         std::lock_guard<std::mutex> lock(mtx);
                         this->output_sink->write_ext(meta, buf_out);
+                        return true;
                     }
 
-                    // Pass the log message to all children Dispatch.
-                    for(auto const& val: this->chain) {
-                        val->write(level, src_file, src_func, line, buf_msg);
-                    }
                 }
             }
+
+            return false;
         }
 
         static std::unique_ptr<Dispatch> &get_logger() {
@@ -104,6 +112,7 @@ namespace kern {
 
         bool is_def_format = true;
         bool is_def_level = true;
+        bool filter_chains = false;
 
         FnFilter filter_func;
         FnFormat format_func;

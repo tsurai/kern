@@ -33,6 +33,7 @@ namespace kern {
         DispatchBuilder& operator=(const DispatchBuilder &) = delete;
 
         DispatchBuilder &filter(FnFilter);
+        DispatchBuilder &filter_chains();
         DispatchBuilder &format(FnFormat);
         DispatchBuilder &level(LogLevel);
         DispatchBuilder &min_level(LogLevel);
