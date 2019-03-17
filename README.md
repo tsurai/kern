@@ -30,7 +30,7 @@ DispatchBuilder()
             .sink(std::make_unique<FileSink>("/var/log/foobar.err"))
             .build())
         .build())
-    // send all messages not catched by a chain to stdout
+    // filter all messages previously caught by a chain dispatch
     .filter_chains()
     .apply();
 
@@ -38,11 +38,6 @@ info("foo");
 error("bar");
 trace("bza");
 ```
-
-### Todo
-
-* [x] thread safety
-* [ ] example code
 
 ### Testing
 
