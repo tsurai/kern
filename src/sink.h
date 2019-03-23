@@ -29,22 +29,22 @@ namespace kern {
     // Outputs messages to stdout
     class StdoutSink : public Sink {
     public:
-        void write(const char *);
+        void write(const char *) override;
     };
 
     // Outputs messages to stderr
     class StderrSink : public Sink {
     public:
-        void write(const char *);
+        void write(const char *) override;
     };
 
     // Outputs messages to a logfile
     class FileSink : public Sink {
     public:
         FileSink() = delete;
-        FileSink(const char *filename) : file(filename, std::ios::out | std::ios::app) { };
+        explicit FileSink(const char *filename) : file(filename, std::ios::out | std::ios::app) { };
 
-        void write(const char *);
+        void write(const char *) override;
     private:
         std::ofstream file;
     };
@@ -57,8 +57,8 @@ namespace kern {
         SyslogSink(const char *, int, int);
         ~SyslogSink();
 
-        void write_ext(const Metadata &, const char *);
-        void write(const char *) { };
+        void write_ext(const Metadata &, const char *) override;
+        void write(const char *) override { };
     private:
         int kern_lvl_to_syslog_lvl(LogLevel);
     };
