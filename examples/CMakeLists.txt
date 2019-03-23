@@ -4,7 +4,11 @@ project(examples)
 message(STATUS "Enabled examples")
 
 set(EXAMPLE_NAMES
-    minimal)
+    minimal
+    formatting
+    filtering
+    chaining
+    advanced)
 
 foreach(name ${EXAMPLE_NAMES})
     add_executable(${name} ${CMAKE_SOURCE_DIR}/examples/${name}.cpp)

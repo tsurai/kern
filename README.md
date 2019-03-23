@@ -7,12 +7,7 @@ Simple C++ logging library using a branching method chaining interface inspired 
 
 DispatchBuilder()
     // accept messages for all level
-    .level(LogLevel::All)
     .sink(std::make_unique<StdoutSink>())
-    // prefix every log message with its level
-    .format([](auto meta, auto msg, auto buf) {
-        snprintf(buf, 256, "[%s] %s", meta.level_str, msg);
-    })
     .chain(DispatchBuilder()
         .level(LogLevel::Trace)
         // use additional debug informations for trace messages
@@ -36,7 +31,7 @@ DispatchBuilder()
 
 info("foo");
 error("bar");
-trace("bza");
+trace("baz");
 ```
 
 ### Testing
