@@ -43,8 +43,12 @@ elseif(WIN32)
         PUBLIC_HEADER DESTINATION include COMPONENT devel)
 endif()
 
+option(KERN_EXAMPLES "Build usage examples" OFF)
 option(KERN_TESTING "Build unit tests with catch" OFF)
 
+if(KERN_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 if(KERN_TESTING)
     add_subdirectory(tests)
