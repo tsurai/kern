@@ -85,7 +85,7 @@ namespace kern {
                     }
 
                     // Filter messages previously processed by a chain
-                    if(output_sink != nullptr && !chain_delivered) {
+                    if(this->output_sink != nullptr && !chain_delivered) {
                         // Locks the mutex for thread safe access to the
                         // output sink.
                         std::lock_guard<std::mutex> lock(mtx);

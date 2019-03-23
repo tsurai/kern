@@ -40,7 +40,7 @@ script:
      - cd build
      - cmake -DCMAKE_BUILD_TYPE=Debug -DTESTING=on ..
      - make
-     - ./tests
+     - ./tests/tests
 
 after_success:
     - |

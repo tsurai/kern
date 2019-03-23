@@ -41,7 +41,7 @@ TEST_CASE("DispatchBuilder creates valid default object") {
     REQUIRE( d != nullptr );
 }
 
-TEST_CASE("DispatchBuilder inherents Dispatch properties to its chain") {
+TEST_CASE("DispatchBuilder inherits Dispatch properties to its chain") {
     char buf[16];
     buf[0] = '\0';
 

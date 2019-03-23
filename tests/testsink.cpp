@@ -33,15 +33,19 @@ TEST_CASE("StderrSink outputs to stderr only") {
 }
 
 TEST_CASE("FileSink creates file") {
-    // create temp file name
-    std::string filename = std::tmpnam(nullptr);
-    const char *cfilename = filename.c_str();
+    char tmp_filename[] = "kern_testing_XXXXXX";
 
-    new FileSink(cfilename);
-    std::ifstream f(cfilename);
+    // create tmp file name by creating a temp file and deleting it
+    // immediately. Using tmpnam would safe this additional step but
+    // it creates compiler warnings
+    REQUIRE( mkstemp(tmp_filename) != -1 );
+    remove(tmp_filename);
+
+    new FileSink(tmp_filename);
+    std::ifstream f(tmp_filename);
 
     CHECK( f.good() );
 
     // remove temporary
-    remove(cfilename);
+    remove(tmp_filename);
 }
