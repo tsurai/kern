@@ -36,7 +36,7 @@ trace("baz");
 
 ### Testing
 
-kern is using parts of the [catch] unit-testing framework for internal testing. All necessary files are beings
+kern is using parts of the [catch] unit-testing framework for internal testing. All necessary files are being
 distributed with kern and can be found in the **tests/catch** subdirectory. Catch is licensed under the Boost
 Software License 1.0
 
