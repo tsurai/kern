@@ -22,7 +22,7 @@
 
 namespace kern {
     // Size of the internal format and output buffer
-    constexpr size_t buf_size = 256;
+    constexpr size_t BUF_SIZE = 256;
 
     // Allows direct control of how a log message should be formatted inside
     // of the internal buffer before writing it out to the output Sink.
@@ -64,15 +64,15 @@ namespace kern {
                 };
 
                 if(this->filter_func == nullptr || this->filter_func(meta)) {
-                    char buf_out[buf_size];
-                    char buf_msg[buf_size];
+                    char buf_out[BUF_SIZE];
+                    char buf_msg[BUF_SIZE];
 
                     // Prevent access to uninitialized memory in case the
                     // format function does not fill the buffer.
                     buf_out[0] = '\0';
 
                     // Process the printf style input from the logging macros
-                    snprintf(buf_msg, buf_size, fmt, args...);
+                    snprintf(buf_msg, BUF_SIZE, fmt, args...);
 
                     // Pass the formatted log message to the format function
                     // for further adjustments with the metadata.

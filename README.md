@@ -1,5 +1,4 @@
-kern [![Build Status](https://travis-ci.org/tsurai/kern.svg?branch=master)](https://travis-ci.org/tsurai/kern) [![Build status](https://ci.appveyor.com/api/projects/status/6juby5hp048r8xfk?svg=true)](https://ci.appveyor.com/project/tsurai/kern) [![codecov](https://codecov.io/gh/tsurai/kern/branch/master/graph/badge.svg)](https://codecov.io/gh/tsurai/kern)
-===
+# kern [![Build Status](https://travis-ci.org/tsurai/kern.svg?branch=master)](https://travis-ci.org/tsurai/kern) [![Build status](https://ci.appveyor.com/api/projects/status/6juby5hp048r8xfk?svg=true)](https://ci.appveyor.com/project/tsurai/kern) [![codecov](https://codecov.io/gh/tsurai/kern/branch/master/graph/badge.svg)](https://codecov.io/gh/tsurai/kern)
 Simple C++ logging library using a branching method chaining interface inspired by the Rust crate [fern].
 
 ```c++
@@ -12,7 +11,7 @@ DispatchBuilder()
         .level(LogLevel::Trace)
         // use additional debug informations for trace messages
         .format([](auto meta, auto msg, auto buf) {
-            snprintf(buf, 256, "[%s] %s:%d | %s", meta.level_str, meta.function, meta.line, msg);
+            snprintf(buf, BUF_SIZE, "[%s] %s:%d | %s", meta.level_str, meta.function, meta.line, msg);
         })
         .sink(std::make_unique<FileSink>("/var/log/foobar.trace"))
         .build())
@@ -31,10 +30,14 @@ DispatchBuilder()
 
 info("foo");
 error("bar");
-trace("baz");
+trace("baz %d %s", 6, "foobar");
 ```
 
-### Testing
+## How to use
+* Tutorial
+* [Reference](docs/builder.md)
+
+## Testing
 
 kern is using parts of the [catch] unit-testing framework for internal testing. All necessary files are being
 distributed with kern and can be found in the **tests/catch** subdirectory. Catch is licensed under the Boost

@@ -17,7 +17,7 @@ int main(int, char **) {
         .chain(kern::DispatchBuilder()
             .level(kern::LogLevel::Trace)
             .format([](auto meta, auto msg, auto buf) {
-                snprintf(buf, 256, "[%s] %s:%d | %s", meta.level_str, meta.function, meta.line, msg);
+                snprintf(buf, kern::BUF_SIZE, "[%s] %s:%d | %s", meta.level_str, meta.function, meta.line, msg);
             })
             .build())
         // filter all messages previously delivered to a chain dispatch
