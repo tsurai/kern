@@ -30,6 +30,9 @@ TEST_CASE("DispatchBuilder can't be reused") {
 
     CHECK_THROWS_AS( b->build(), BuilderReuseException );
     CHECK_THROWS_AS( b->level(LogLevel::All), BuilderReuseException );
+    CHECK_THROWS_AS( b->min_level(LogLevel::Info), BuilderReuseException );
+    CHECK_THROWS_AS( b->max_level(LogLevel::Info), BuilderReuseException );
+    CHECK_THROWS_AS( b->filter_chains(), BuilderReuseException );
     CHECK_THROWS_AS( b->filter(nullptr), BuilderReuseException );
     CHECK_THROWS_AS( b->format(nullptr), BuilderReuseException );
     CHECK_THROWS_AS( b->sink(nullptr), BuilderReuseException );
@@ -51,12 +54,12 @@ TEST_CASE("DispatchBuilder inherits Dispatch properties to its chain") {
     const char *res = "foobar";
 
     DispatchBuilder()
+        .level(LogLevel::Info)
         .sink(std::make_unique<BufSink>(buf))
         .format([](auto, auto msg, auto buf) {
             snprintf(buf, 16, "%s", msg);
         })
         .chain(DispatchBuilder()
-            .level(LogLevel::Info)
             .build())
         .apply();
 
