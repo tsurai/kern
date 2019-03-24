@@ -17,6 +17,10 @@ TEST_CASE("DispatchBuilder doesn't accept invalid arguments") {
     CHECK_THROWS_AS( b->format(nullptr), std::invalid_argument );
     CHECK_THROWS_AS( b->sink(nullptr), std::invalid_argument );
     CHECK_THROWS_AS( b->chain(nullptr), std::invalid_argument );
+    CHECK_THROWS_AS( b->min_level(static_cast<LogLevel>(0)), std::invalid_argument );
+    CHECK_THROWS_AS( b->min_level(LogLevel::Debug | LogLevel::Info), std::invalid_argument );
+    CHECK_THROWS_AS( b->max_level(static_cast<LogLevel>(0)), std::invalid_argument );
+    CHECK_THROWS_AS( b->max_level(LogLevel::Debug | LogLevel::Info), std::invalid_argument );
 }
 
 TEST_CASE("DispatchBuilder can't be reused") {
@@ -31,7 +35,6 @@ TEST_CASE("DispatchBuilder can't be reused") {
     CHECK_THROWS_AS( b->sink(nullptr), BuilderReuseException );
     CHECK_THROWS_AS( b->chain(nullptr), BuilderReuseException );
     CHECK_THROWS_WITH( b->apply(), Equals("Reuse of consumed builder") );
-
 }
 
 TEST_CASE("DispatchBuilder creates valid default object") {

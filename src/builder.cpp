@@ -60,7 +60,11 @@ namespace kern {
         if(this->inner == nullptr)
             throw BuilderReuseException();
 
-        this->inner->log_level = LogLevel::All ^ static_cast<LogLevel>(static_cast<char>(level) - 1);
+        char lvl = static_cast<char>(level);
+        if(lvl == 0 || (lvl & (lvl - 1)) != 0)
+            throw std::invalid_argument("level must not be a combined value");
+
+        this->inner->log_level = LogLevel::All ^ static_cast<LogLevel>(lvl - 1);
         this->inner->is_def_level = false;
 
         return *this;
@@ -72,7 +76,11 @@ namespace kern {
         if(this->inner == nullptr)
             throw BuilderReuseException();
 
-        this->inner->log_level = static_cast<LogLevel>((static_cast<char>(level) << 1) - 1);
+        char lvl = static_cast<char>(level);
+        if(lvl == 0 || (lvl & (lvl - 1)) != 0)
+            throw std::invalid_argument("level must not be a combined value");
+
+        this->inner->log_level = static_cast<LogLevel>((lvl << 1) - 1);
         this->inner->is_def_level = false;
 
         return *this;
