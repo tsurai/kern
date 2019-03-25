@@ -9,7 +9,7 @@ elseif(WIN32)
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
-set(PROJECT_VERSION 0.2.0)
+set(PROJECT_VERSION 1.0.0)
 set(KERN_SOURCES
     src/dispatch.cpp
     src/builder.cpp
